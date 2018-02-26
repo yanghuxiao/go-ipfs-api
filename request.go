@@ -73,6 +73,10 @@ func (e *Error) Error() string {
 }
 
 func (r *Request) Send(c *http.Client) (*Response, error) {
+	c.Transport = &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+	}
+	
 	url := r.getURL()
 
 	req, err := http.NewRequest("POST", url, r.Body)
